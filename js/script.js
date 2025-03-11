@@ -1,5 +1,3 @@
-// Page horoscope
-
 const signe = document.querySelector('#signe')
 const dateJour = document.querySelector('#datejour')
 const date = document.querySelector('#date')
@@ -9,8 +7,6 @@ const leftArrow = document.querySelector('.arrow-left')
 const rightArrow = document.querySelector('.arrow-right')
 const previousSign = document.querySelector('.left-horoscope')
 const nextSign = document.querySelector('.right-horoscope')
-
-let idSigne = 1;
 
 async function afficherHoroscope(idChoisi) {
   const req = await fetch('/json/horoscope.json')
@@ -47,34 +43,36 @@ async function afficherHoroscope(idChoisi) {
   image.innerHTML = `<img src="${found.image}" alt="${found.signe}">`  
 }
 
-afficherHoroscope(idSigne)
+function next(){
+  idSigne = (idSigne % 12) + 1
+  afficherHoroscope(idSigne)
+}
+
+function previous(){
+  idSigne = (idSigne - 2 + 12) % 12 + 1
+  afficherHoroscope(idSigne)
+}
 
 leftArrow.addEventListener('click', (e) => {
   e.preventDefault()
-  idSigne = (idSigne - 2 + 12) % 12 + 1
-  afficherHoroscope(idSigne)
+  previous()
 })
 
 previousSign.addEventListener('click', (e) => {
   e.preventDefault()
-  idSigne = (idSigne - 2 + 12) % 12 + 1
-  afficherHoroscope(idSigne)
+  previous()
 })
 
 rightArrow.addEventListener('click', (e) => {
   e.preventDefault()
-  idSigne = (idSigne % 12) + 1
-  afficherHoroscope(idSigne)
+  next()
 })
 
 nextSign.addEventListener('click', (e) => {
   e.preventDefault()
-  idSigne = (idSigne % 12) + 1
-  afficherHoroscope(idSigne)
+  next()
 })
 
-// Page à propos
+let idSigne = 1;
 
-
-
-// Page contact
+afficherHoroscope(idSigne)
